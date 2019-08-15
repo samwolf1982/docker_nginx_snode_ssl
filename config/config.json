@@ -1,0 +1,8 @@
+{
+  "port": "8080",
+  "redis-port": "6379",
+  "redis-host2": "10.0.75.1",
+  "redis-host": "redis",
+  "expired-cache":  172800
+
+}

@@ -1,20 +1,21 @@
 {
-  "name": "nodejs-image-demo",
-  "version": "1.0.0",
-  "description": "nodejs image demo",
-  "author": "katjuell <kathleenjuell@gmail.com>",
-  "license": "MIT",
-  "main": "app.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/katjuell/nodejs-image-demo.git"
+  "name": "look-notif-aj",
+  "version": "0.0.1",
+  "private": true,
+  "author": "mSamwolf",
+  "scripts": {
+    "start": "nodemon -L app/bin/www"
   },
-  "keywords": [
-    "nodejs",
-    "bootstrap",
-    "express"
-  ],
   "dependencies": {
-    "express": "^4.16.4"
+    "body-parser": "~1.8.1",
+    "cookie-parser": "~1.3.3",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "hjs": "~0.0.6",
+    "morgan": "^1.9.1",
+    "nconf": "^0.10.0",
+    "redis": "*",
+    "serve-favicon": "^2.5.0"
   }
 }
