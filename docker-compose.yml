@@ -14,11 +14,13 @@ services:
   db:
     image: redis
     container_name: redis
-    restart: unless-stopped
+    restart: always
     networks:
       - app-network
     depends_on:
       - nodejs
+    volumes:
+      - redis-storage:/data
 
   webserver:
     image: nginx:mainline-alpine
@@ -28,45 +30,33 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - certs:/etc/letsencrypt
       - web-root:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - dhparam:/etc/ssl/certs
     depends_on:
       - nodejs
     networks:
       - app-network
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
-    depends_on:
-      - webserver
-    #command: certonly --webroot --webroot-path=/var/www/html --email biryukwolf1@gmail.com --agree-tos --no-eff-email --staging -d lookbest.tk  -d www.lookbest.tk
-    command: certonly --webroot --webroot-path=/var/www/html --email biryukwolf1@gmail.com --agree-tos --no-eff-email --force-renewal -d lookbest.tk -d www.lookbest.tk
-
-
 volumes:
-  certbot-etc:
-  certbot-var:
+  redis-storage:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/docker_nginx_snode_ssl/redis_storage/
+      o: bind
+  certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/docker_nginx_snode_ssl/ssl_storage/
+      o: bind
   web-root:
     driver: local
     driver_opts:
       type: none
-      device: /home/node_project/views/
+      device: /home/docker_nginx_snode_ssl/views/
       o: bind
-  dhparam:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/node_project/dhparam/
-      o: bind
-
 networks:
   app-network:
     driver: bridge

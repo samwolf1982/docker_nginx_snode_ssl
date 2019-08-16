@@ -1,0 +1,25 @@
+version: '3'
+services:
+  webservertmp:
+    image: nginx:mainline-alpine
+    container_name: webservertmp
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - https-certs:/etc/letsencrypt
+      - /usr/share/nginx/html
+    networks:
+      - app-init-network
+volumes:
+  certbot-var:
+  https-certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/docker_nginx_snode_ssl/ssl_storage
+      o: bind
+networks:
+  app-init-network:
+    driver: bridge
+
